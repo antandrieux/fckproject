@@ -1,10 +1,10 @@
 from random import randint
 from networkx import nx
-from matplotlib import plt
+import matplotlib as plt
 
 def hypergraphe(G):
-    if ac
-rehg
+
+    if
 
 
 
