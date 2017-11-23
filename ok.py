@@ -1,10 +1,12 @@
 from random import randint
 from networkx import nx
-import matplotlib as plt
+import matplotlib.pyplot as plt
 from math import ceil
 from copy import deepcopy
 
-if __name__ == "__main__":
+
+
+def hypergraphe():
     nbr_sommets = randint(4, 15)
     hyper_aretes = randint(2, round((3/4)*nbr_sommets))
     sommets = []
@@ -27,5 +29,21 @@ if __name__ == "__main__":
                 if sommets[a] in copie: del copie[copie.index(sommets[a])]
     if copie:
         for i in copie: G.append(i)
+    return G
 
-    print(G)
+if __name__ == "__main__":
+    graph = hypergraphe()
+    print(graph)
+    G = nx.Graph()
+    for i in range(len(graph)):
+        if type(graph[i]) == list:  # Hyperarêtes
+            x = "E{}".format(i+1)
+            G.add_node(x)
+            for j in graph[i]:
+                G.add_node(j)
+                G.add_edge(j, x)
+        else:       # Singleton
+            G.add_node(graph[i])
+    plt.subplot(121)
+    nx.draw(G, with_labels=True, font_weight='bold')
+    plt.show()
