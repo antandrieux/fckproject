@@ -33,7 +33,7 @@ def hypergraphe():
 
     if copie:
         for i in copie: G.append(i)
-    return G
+    return G, nbr_sommets
 
 def graph_incidence(graph):
     G = nx.Graph()
@@ -52,6 +52,7 @@ def graph_incidence(graph):
 
 
 if __name__ == "__main__":
-    graph = hypergraphe()
+    graph, nbr_sommets = hypergraphe()
     print(graph)
     graph_incidence(graph)
+    mat_incident(graph, nbr_sommets)
