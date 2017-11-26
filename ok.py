@@ -70,5 +70,5 @@ def graph_primal(graph):
 if __name__ == "__main__":
     graph = hypergraphe()
     print(graph)
-    graph_incidence(graph)
+    #graph_incidence(graph)
     graph_primal(graph)
