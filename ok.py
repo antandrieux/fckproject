@@ -66,39 +66,29 @@ def graph_primal(graph):
     nx.draw(graphP, with_labels=True, font_weight='bold')
     plt.show()
 
+def constru(G, nbr_sommets):
+    G_inci = {i+1 : [] for i in range(nbr_sommets)}
+    for i in range(len(G)):
+        if type(G[i]) == list:
+            h_a = "E{}".format(i+1)
+            G_inci[h_a] = G[i]
+            for j in G[i]:
+                G_inci[j].append(h_a)
+    return G_inci
+
+def dfs(graph,node, visited = []):
+    if node not in visited:
+        visited.append(node)
+        for n in graph[node]:
+            dfs(graph,n, visited)
+    else :
+        print('cycle')
+    return visited
+
 
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
     print(graph)
-<<<<<<< HEAD
+    G_inci = constru(graph, nbr_sommets)
+    print(dfs(G_inci, 1))
     graph_incidence(graph)
-    mat_incident(graph, nbr_sommets)
-=======
-    #graph_incidence(graph)
-    graph_primal(graph)
-
-
-graph = {
-    'E1' : ['v1','v2', 'v3'],
-    'E2' : ['v2', 'v3'],
-    'E3' : ['v3', 'v5', 'v6'],
-    'E4' : ['v4'],
-    'v1' : ['E1'],
-    'v2' : ['E2', 'E3'],
-    'v3' : ['E1', 'E2', 'E3'],
-    'v4' : ['E4'],
-    'v5' : ['E3'],
-    'v6' : ['E3'],
-    'v7' : [],
-
-}
-
-def dfs(graph,node, visited = []):
-    if node in visited:
-        print('cycle')
-    else:
-        visited.append(node)
-        for n in graph[node]:
-            dfs(graph,n, visited)
-    return visited
-print(dfs(graph,'E1'))
