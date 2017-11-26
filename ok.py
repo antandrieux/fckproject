@@ -50,8 +50,25 @@ def graph_incidence(graph):
     nx.draw(G, with_labels=True, font_weight='bold')
     plt.show()
 
+def graph_primal(graph):
+    graphP = nx.Graph()
+    for i in range(len(graph)):
+        if type(graph[i]) == list:
+            graphP.add_node(graph[i][0])
+            if len(graph[i]) > 1:
+                for sommet in range(1,len(graph[i])):
+                    graphP.add_node(graph[i][sommet])
+                    graphP.add_edge(graph[i][sommet], graph[i][sommet-1])
+                graphP.add_edge(graph[i][-1], graph[i][0])
+        else:
+            graphP.add_node(graph[i])
+    plt.subplot(121)
+    nx.draw(graphP, with_labels=True, font_weight='bold')
+    plt.show()
+
 
 if __name__ == "__main__":
     graph = hypergraphe()
     print(graph)
     graph_incidence(graph)
+    graph_primal(graph)
