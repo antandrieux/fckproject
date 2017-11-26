@@ -50,9 +50,55 @@ def graph_incidence(graph):
     nx.draw(G, with_labels=True, font_weight='bold')
     plt.show()
 
+def graph_primal(graph):
+    graphP = nx.Graph()
+    for i in range(len(graph)):
+        if type(graph[i]) == list:
+            graphP.add_node(graph[i][0])
+            if len(graph[i]) > 1:
+                for sommet in range(1,len(graph[i])):
+                    graphP.add_node(graph[i][sommet])
+                    graphP.add_edge(graph[i][sommet], graph[i][sommet-1])
+                graphP.add_edge(graph[i][-1], graph[i][0])
+        else:
+            graphP.add_node(graph[i])
+    plt.subplot(121)
+    nx.draw(graphP, with_labels=True, font_weight='bold')
+    plt.show()
+
 
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
     print(graph)
+<<<<<<< HEAD
     graph_incidence(graph)
     mat_incident(graph, nbr_sommets)
+=======
+    #graph_incidence(graph)
+    graph_primal(graph)
+
+
+graph = {
+    'E1' : ['v1','v2', 'v3'],
+    'E2' : ['v2', 'v3'],
+    'E3' : ['v3', 'v5', 'v6'],
+    'E4' : ['v4'],
+    'v1' : ['E1'],
+    'v2' : ['E2', 'E3'],
+    'v3' : ['E1', 'E2', 'E3'],
+    'v4' : ['E4'],
+    'v5' : ['E3'],
+    'v6' : ['E3'],
+    'v7' : [],
+
+}
+
+def dfs(graph,node, visited = []):
+    if node in visited:
+        print('cycle')
+    else:
+        visited.append(node)
+        for n in graph[node]:
+            dfs(graph,n, visited)
+    return visited
+print(dfs(graph,'E1'))
