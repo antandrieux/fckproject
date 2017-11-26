@@ -33,7 +33,7 @@ def hypergraphe():
 
     if copie:
         for i in copie: G.append(i)
-    return G, nbr_sommets
+    return G
 
 def graph_incidence(graph):
     G = nx.Graph()
