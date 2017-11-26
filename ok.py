@@ -33,7 +33,7 @@ def hypergraphe():
 
     if copie:
         for i in copie: G.append(i)
-    return G
+    return G, nbr_sommets
 
 def graph_incidence(graph):
     G = nx.Graph()
@@ -68,8 +68,12 @@ def graph_primal(graph):
 
 
 if __name__ == "__main__":
-    graph = hypergraphe()
+    graph, nbr_sommets = hypergraphe()
     print(graph)
+<<<<<<< HEAD
+    graph_incidence(graph)
+    mat_incident(graph, nbr_sommets)
+=======
     #graph_incidence(graph)
     graph_primal(graph)
 
@@ -98,3 +102,4 @@ def dfs(graph,node, visited = []):
             dfs(graph,n, visited)
     return visited
 print(dfs(graph,'E1'))
+>>>>>>> 9a96079cb2d545b40fc8127f85c14ba4bfc96c7e
