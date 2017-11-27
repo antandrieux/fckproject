@@ -63,7 +63,7 @@ def graph_primal(graph):
         else:
             graphP.add_node(graph[i])
     plt.subplot(121)
-    nx.draw(graphP, with_labels=True, font_weight='bold')
+    nx.draw(graphP ,with_labels=True, font_weight='bold')
     plt.show()
 
 def constru(G, nbr_sommets):
@@ -76,17 +76,15 @@ def constru(G, nbr_sommets):
                 G_inci[j].append(h_a)
     return G_inci
 
-def dfs(graph,node, visited = []):
+def dfs(graph,node):
     if node not in visited:
         visited.append(node)
         for n in graph[node]:
-            dfs(graph,n, visited)
-    elif node in visited and not(visited[-1] in graph[node]):
-        print(visited[-1])
-        print(node)
-        print(visited)
+            dfs(graph,n)
+
+    elif node in visited :
+    #and not(visited[-1] in graph[node]):
         print('cycle')
-    return visited
 
 
 if __name__ == "__main__":
@@ -94,11 +92,7 @@ if __name__ == "__main__":
     print(graph)
     G_inci = constru(graph, nbr_sommets)
     print(G_inci)
-    print(dfs(G_inci, 1))
+    global visited
+    visited = []
+    dfs(G_inci, 1)
     graph_incidence(graph)
-
-if __name__ == "__main__":
-    graph = hypergraphe()
-    print(graph)
-    #graph_incidence(graph)
-    graph_primal(graph)
