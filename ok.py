@@ -36,18 +36,25 @@ def hypergraphe():
     return G, nbr_sommets
 
 def graph_incidence(graph):
+    pos = {}
     G = nx.Graph()
+    ite = 0
     for i in range(len(graph)):
         if type(graph[i]) == list:  # Hyperarêtes
             x = "E{}".format(i+1)
             G.add_node(x)
+            pos[x] = (-10, -20*(i*2))
             for j in graph[i]:
-                G.add_node(j)
+                if j not in nx.nodes(G):
+                    G.add_node(j)
+                    pos[j] = (10, -20*(i+1+ite))
+                    ite += 1
                 G.add_edge(j, x)
         else:       # Singleton
             G.add_node(graph[i])
+            pos[graph[i]] = (10, -20*(i+1+ite))
     plt.subplot(121)
-    nx.draw(G, with_labels=True, font_weight='bold')
+    nx.draw(G, pos, with_labels=True, font_weight='bold')
     plt.show()
 
 def graph_primal(graph):
@@ -63,7 +70,7 @@ def graph_primal(graph):
         else:
             graphP.add_node(graph[i])
     plt.subplot(121)
-    nx.draw(graphP ,with_labels=True, font_weight='bold')
+    nx.draw_circular(graphP ,with_labels=True, font_weight='bold')
     plt.show()
 
 def constru(G, nbr_sommets):
@@ -91,8 +98,8 @@ if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
     print(graph)
     G_inci = constru(graph, nbr_sommets)
-    print(G_inci)
     global visited
     visited = []
     dfs(G_inci, 1)
-    graph_incidence(graph)
+    graph_primal(graph)
+    #graph_incidence(graph)
