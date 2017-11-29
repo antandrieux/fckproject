@@ -5,7 +5,6 @@ from math import ceil
 from copy import deepcopy
 
 
-
 def hypergraphe():
     nbr_sommets = randint(4, 15)
     hyper_aretes = randint(2, round((3/4)*nbr_sommets))
@@ -33,21 +32,28 @@ def hypergraphe():
 
     if copie:
         for i in copie: G.append(i)
-    return G
+    return G, nbr_sommets
 
 def graph_incidence(graph):
+    pos = {}
     G = nx.Graph()
+    ite = 0
     for i in range(len(graph)):
         if type(graph[i]) == list:  # Hyperarêtes
             x = "E{}".format(i+1)
             G.add_node(x)
+            pos[x] = (-10, -20*(i*2))
             for j in graph[i]:
-                G.add_node(j)
+                if j not in nx.nodes(G):
+                    G.add_node(j)
+                    pos[j] = (10, -20*(i+1+ite))
+                    ite += 1
                 G.add_edge(j, x)
         else:       # Singleton
             G.add_node(graph[i])
+            pos[graph[i]] = (10, -20*(i+1+ite))
     plt.subplot(121)
-    nx.draw(G, with_labels=True, font_weight='bold')
+    nx.draw(G, pos, with_labels=True, font_weight='bold')
     plt.show()
 
 def graph_primal(graph):
@@ -63,7 +69,7 @@ def graph_primal(graph):
         else:
             graphP.add_node(graph[i])
     plt.subplot(121)
-    nx.draw(graphP, with_labels=True, font_weight='bold')
+    nx.draw_circular(graphP ,with_labels=True, font_weight='bold')
     plt.show()
 
 def constru(G, nbr_sommets):
@@ -76,19 +82,25 @@ def constru(G, nbr_sommets):
                 G_inci[j].append(h_a)
     return G_inci
 
-def dfs(graph,node, visited = []):
+def dfs(graph,node):
     if node not in visited:
         visited.append(node)
         for n in graph[node]:
-            dfs(graph,n, visited)
-    else :
+            dfs(graph,n)
+
+    elif node in visited :
+    #and not(visited[-1] in graph[node]):
         print('cycle')
-    return visited
 
 
 if __name__ == "__main__":
+    global visited
+    visited = []
     graph, nbr_sommets = hypergraphe()
     print(graph)
     G_inci = constru(graph, nbr_sommets)
     print(dfs(G_inci, 1))
     graph_incidence(graph)
+    dfs(G_inci, 1)
+    graph_primal(graph)
+    #graph_incidence(graph)
