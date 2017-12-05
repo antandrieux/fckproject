@@ -90,21 +90,9 @@ def dfs(graph, node, cycle, visited = []):
             dfs(graph, n, cycle, visited)
             cycle[0].pop()
     else :
-<<<<<<< HEAD
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return visited, cycle
-=======
-<<<<<<< HEAD
-        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
-            cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
-    return visited, cycle
-=======
-        if len(cycle)>2 and not(cycle[-1] == cycle[-3]) and cycle[-1] in cycle[:-1]:
-            print('cycle : ' + str(cycle[cycle.index(cycle[-1]):-1]))
-    return visited
->>>>>>> 7ceadeffff0ce9dbc8bfa048d3cd87d0be5f50db
->>>>>>> d0cddf9694a1687845dee9e8065718fb48464b65
 
 def cycle(graph):
     done = []
@@ -120,16 +108,7 @@ def cycle(graph):
 
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
-<<<<<<< HEAD
     G_inci = constru_incidence(graph, nbr_sommets)
-=======
-<<<<<<< HEAD
-    print(graph)
-    G_inci = constru_incidence(graph, nbr_sommets)
-=======
-    G_inci = constru(graph, nbr_sommets)
->>>>>>> 7ceadeffff0ce9dbc8bfa048d3cd87d0be5f50db
->>>>>>> d0cddf9694a1687845dee9e8065718fb48464b65
     print(G_inci)
     print(cycle(G_inci))
     graph_incidence(graph)
