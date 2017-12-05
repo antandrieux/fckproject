@@ -91,7 +91,7 @@ def dfs(graph, node, visited, cycle):
             cycle.pop()
     else :
         if len(cycle)>2 and not(cycle[-1] == cycle[-3]) and cycle[-1] in cycle[:-1]:
-            print('cycle : ' + str(cycle))
+            print('cycle : ' + str(cycle[cycle.index(cycle[-1]):-1]))
     return visited
 
 def cycle(graph):
