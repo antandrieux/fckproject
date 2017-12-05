@@ -107,10 +107,7 @@ def cycle(graph):
     return cycle[1:]
 
 if __name__ == "__main__":
-    global visited
-    visited = []
     graph, nbr_sommets = hypergraphe()
-    print(graph)
     G_inci = constru_incidence(graph, nbr_sommets)
     print(G_inci)
     print(cycle(G_inci))
