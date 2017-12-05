@@ -1,14 +1,5 @@
 graph_primal = {1:[2,4], 2:[1, 4], 3:[], 4:[1, 2]}
 
-'''def clique_max(graph_primal, i = 1, current = [], cliques = []):
-    current.append(i)
-    for j in range(len(graph_primal[i])):
-        if i != 1:
-            if graph_primal[i][j] in current:
-
-        else:
-            clique_max(graph_primal, 2, current, cliques)'''
-
 def bron(r,p,x):
     if len(p) == 0 and len(x) == 0:
         cliques_max.append(r)
