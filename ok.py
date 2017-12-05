@@ -95,6 +95,8 @@ def dfs(graph, node, visited, cycle):
     return visited
 
 if __name__ == "__main__":
+    global visited
+    visited = []
     graph, nbr_sommets = hypergraphe()
     G_inci = constru(graph, nbr_sommets)
     print(G_inci)
@@ -105,4 +107,3 @@ if __name__ == "__main__":
             cycle = []
             visited = dfs(G_inci, node, visited, cycle)
     graph_incidence(graph)
-    #graph_primal(graph)
