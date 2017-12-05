@@ -94,16 +94,19 @@ def dfs(graph, node, visited, cycle):
             print('cycle : ' + str(cycle))
     return visited
 
+def cycle(graph):
+    visited = []
+    for node in G_inci:
+        if not(node in visited) and len(graph[node])>1:
+            visited = []
+            cycle = []
+            visited = dfs(graph, node, visited, cycle)
+
 if __name__ == "__main__":
     global visited
     visited = []
     graph, nbr_sommets = hypergraphe()
     G_inci = constru(graph, nbr_sommets)
     print(G_inci)
-    visited = []
-    for node in G_inci:
-        if not(node in visited) and len(G_inci[node])>1:
-            visited = []
-            cycle = []
-            visited = dfs(G_inci, node, visited, cycle)
+    cycle(G_inci)
     graph_incidence(graph)
