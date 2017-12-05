@@ -90,9 +90,15 @@ def dfs(graph, node, cycle, visited = []):
             dfs(graph, n, cycle, visited)
             cycle[0].pop()
     else :
+<<<<<<< HEAD
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return visited, cycle
+=======
+        if len(cycle)>2 and not(cycle[-1] == cycle[-3]) and cycle[-1] in cycle[:-1]:
+            print('cycle : ' + str(cycle[cycle.index(cycle[-1]):-1]))
+    return visited
+>>>>>>> 7ceadeffff0ce9dbc8bfa048d3cd87d0be5f50db
 
 def cycle(graph):
     done = []
@@ -110,8 +116,12 @@ if __name__ == "__main__":
     global visited
     visited = []
     graph, nbr_sommets = hypergraphe()
+<<<<<<< HEAD
     print(graph)
     G_inci = constru_incidence(graph, nbr_sommets)
+=======
+    G_inci = constru(graph, nbr_sommets)
+>>>>>>> 7ceadeffff0ce9dbc8bfa048d3cd87d0be5f50db
     print(G_inci)
     print(cycle(G_inci))
     graph_incidence(graph)
