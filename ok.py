@@ -99,6 +99,10 @@ if __name__ == "__main__":
     visited = []
     graph, nbr_sommets = hypergraphe()
     G_inci = constru(graph, nbr_sommets)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> eb3e81040972ea7d301092ba14136be6407de2d3
     print(G_inci)
     visited = []
     for node in G_inci:
@@ -107,3 +111,14 @@ if __name__ == "__main__":
             cycle = []
             visited = dfs(G_inci, node, visited, cycle)
     graph_incidence(graph)
+<<<<<<< HEAD
+=======
+    #graph_primal(graph)
+=======
+    print(dfs(G_inci, 1))
+    graph_incidence(graph)
+    dfs(G_inci, 1)
+    graph_primal(graph)
+    #graph_incidence(graph)
+>>>>>>> ec616aec542121c2405acbf184b1c3e17317dd00
+>>>>>>> eb3e81040972ea7d301092ba14136be6407de2d3
