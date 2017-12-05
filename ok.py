@@ -72,7 +72,7 @@ def graph_primal(graph):
     nx.draw_circular(graphP ,with_labels=True, font_weight='bold')
     plt.show()
 
-def constru(G, nbr_sommets):
+def constru_incidence(G, nbr_sommets):
     G_inci = {i+1 : [] for i in range(nbr_sommets)}
     for i in range(len(G)):
         if type(G[i]) == list:
@@ -82,31 +82,36 @@ def constru(G, nbr_sommets):
                 G_inci[j].append(h_a)
     return G_inci
 
-def dfs(graph, node, visited, cycle):
-    cycle.append(node)
+def dfs(graph, node, cycle, visited = []):
+    cycle[0].append(node)
     if node not in visited:
         visited.append(node)
         for n in graph[node]:
-            dfs(graph, n, visited, cycle)
-            cycle.pop()
+            dfs(graph, n, cycle, visited)
+            cycle[0].pop()
     else :
-        if len(cycle)>2 and not(cycle[-1] == cycle[-3]) and cycle[-1] in cycle[:-1]:
-            print('cycle : ' + str(cycle))
-    return visited
+        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
+            cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
+    return visited, cycle
 
 def cycle(graph):
-    visited = []
+    done = []
+    cycle = [[]]
     for node in G_inci:
-        if not(node in visited) and len(graph[node])>1:
-            visited = []
-            cycle = []
-            visited = dfs(graph, node, visited, cycle)
+        if not(node in done) and len(graph[node])>1:
+            done = []
+            cycle[0] = []
+            are_done, cycle = dfs(graph, node, cycle)
+            for i in are_done:
+                done.append(i)
+    return cycle[1:]
 
 if __name__ == "__main__":
     global visited
     visited = []
     graph, nbr_sommets = hypergraphe()
-    G_inci = constru(graph, nbr_sommets)
+    print(graph)
+    G_inci = constru_incidence(graph, nbr_sommets)
     print(G_inci)
-    cycle(G_inci)
+    print(cycle(G_inci))
     graph_incidence(graph)
