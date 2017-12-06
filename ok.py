@@ -82,6 +82,17 @@ def constru_incidence(G, nbr_sommets):
                 G_inci[j].append(h_a)
     return G_inci
 
+def constru_primal(graph, nbr_sommets):
+    gPrimal = {i+1 : [] for i in range(nbr_sommets)}
+    for hyper_arete in graph:
+        if type(hyper_arete) == list:
+            for sommet in hyper_arete :
+                for i in hyper_arete:
+                    if i not in gPrimal[sommet] and i != sommet:
+                        gPrimal[sommet].append(i)
+    return gPrimal
+
+
 def dfs(graph, node, cycle, visited = []):
     cycle[0].append(node)
     if node not in visited:
@@ -90,14 +101,15 @@ def dfs(graph, node, cycle, visited = []):
             dfs(graph, n, cycle, visited)
             cycle[0].pop()
     else :
-        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
+        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
+            and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return visited, cycle
 
 def cycle(graph):
     done = []
     cycle = [[]]
-    for node in G_inci:
+    for node in graph:
         if not(node in done) and len(graph[node])>1:
             done = []
             cycle[0] = []
@@ -106,9 +118,20 @@ def cycle(graph):
                 done.append(i)
     return cycle[1:]
 
+
+def cordal(graph, nbr_sommets):
+    gPrimal = constru_primal(graph, nbr_sommets)
+    all_cycle = cycle(gPrimal)
+    print(all_cycle)
+    for current_cycle in all_cycle:
+        if len(current_cycle)>= 4:
+            print(current_cycle)
+
+
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
-    G_inci = constru_incidence(graph, nbr_sommets)
-    print(G_inci)
+    '''G_inci = constru_incidence(graph, nbr_sommets)
     print(cycle(G_inci))
-    graph_incidence(graph)
+    graph_incidence(graph)'''
+    cordal(graph, nbr_sommets)
+    graph_primal(graph)
