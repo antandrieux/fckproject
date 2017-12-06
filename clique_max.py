@@ -13,14 +13,14 @@ def bron(r,p,x):
         p.remove(sommet)
         x.append(sommet)
 
-def alpha_cyclique(graph_primal, G_inci):
+def alpha_cyclique(graph_primal, graph):
     global cliques_max
     cliques_max = []
     bron([], [val + 1 for val in range(len(graph_primal))], [])
     i = 0
     cliques_ha = True
     while i < len(cliques_max) and cliques_ha:
-        if cliques_max[i] not in G_inci.values():
+        if cliques_max[i] not in graph:
             cliques_ha = False
         i += 1
     # cordal =
