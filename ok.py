@@ -69,7 +69,7 @@ def graph_primal(graph):
         else:
             graphP.add_node(graph[i])
     plt.subplot(121)
-    nx.draw_circular(graphP ,with_labels=True, font_weight='bold')
+    nx.draw(graphP ,with_labels=True, font_weight='bold')
     plt.show()
 
 def constru_incidence(G, nbr_sommets):
@@ -107,11 +107,12 @@ def dfs(graph, node, cycle, visited = []):
     return visited, cycle
 
 def cycle(graph):
+    #print(graph)
     done = []
     cycle = [[]]
+    #print(done, cycle)
     for node in graph:
         if not(node in done) and len(graph[node])>1:
-            done = []
             cycle[0] = []
             are_done, cycle = dfs(graph, node, cycle)
             for i in are_done:
@@ -121,17 +122,32 @@ def cycle(graph):
 
 def cordal(graph, nbr_sommets):
     gPrimal = constru_primal(graph, nbr_sommets)
+    res = True
     all_cycle = cycle(gPrimal)
-    print(all_cycle)
+    #print(all_cycle)
     for current_cycle in all_cycle:
-        if len(current_cycle)>= 4:
-            print(current_cycle)
+        nbrSommetCycle = len(current_cycle)
+        if nbrSommetCycle >= 4:
+            res = False
+            for i in range(nbrSommetCycle):
+                voisin_G = i-1
+                voisin_D = i-1
+                if voisin_D >= nbrSommetCycle:
+                    voisin_D = 0
+                for j in range(nbrSommetCycle):
+                    if j != voisin_G and j != voisin_D and j != i :
+                        if current_cycle[j] in gPrimal[current_cycle[i]]:
+                            res = True
+    return res
 
 
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
-    '''G_inci = constru_incidence(graph, nbr_sommets)
-    print(cycle(G_inci))
-    graph_incidence(graph)'''
-    cordal(graph, nbr_sommets)
+    G_inci = constru_incidence(graph, nbr_sommets)
+    """print(acyclique_Berge(G_inci))"""
+
+    graph_incidence(graph)
+    print(cordal(graph, nbr_sommets))
+
     graph_primal(graph)
+    print(cycle(G_inci))
