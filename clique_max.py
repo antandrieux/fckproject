@@ -160,8 +160,7 @@ def acyclique_Berge(graph):
         res = False
     return res
 
-def cordal(graph, nbr_sommets):
-    gPrimal = constru_primal(graph, nbr_sommets)
+def cordal(gPrimal):
     all_cycle = cycle(gPrimal)
     res = True
     for current_cycle in all_cycle:
