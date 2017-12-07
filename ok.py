@@ -82,7 +82,7 @@ def constru_incidence(G, nbr_sommets):
                 G_inci[j].append(h_a)
     return G_inci
 
-def dfs(graph, node, cycle, visited = []):
+def dfs(graph, node, cycle, visited):
     cycle[0].append(node)
     if node not in visited:
         visited.append(node)
@@ -90,9 +90,10 @@ def dfs(graph, node, cycle, visited = []):
             dfs(graph, n, cycle, visited)
             cycle[0].pop()
     else :
-        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
+        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
+            and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
-    return cycle
+    return visited, cycle
 
 def cycle(graph):
     cycle = [[]]
@@ -138,5 +139,13 @@ if __name__ == "__main__":
     graph_primal(graph)
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
 >>>>>>> 1e74d867ec168db62eb2649c379acfa653067469
 >>>>>>> 721e33cfb55f35878f757ddba0621871a5a5313c
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 1e74d867ec168db62eb2649c379acfa653067469
+>>>>>>> 721e33cfb55f35878f757ddba0621871a5a5313c
+>>>>>>> f7daa8ce38d71d5bdfb85a2f9d4a4184e5aaea67
+>>>>>>> 9746807c32c6c11cb4f681ae6a8ffd44181dfb59
