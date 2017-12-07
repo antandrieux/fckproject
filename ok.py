@@ -93,9 +93,9 @@ def dfs(graph, node, cycle, visited):
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
             and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
-    return visited, cycle
+    return cycle
 
-def cycle(graph):
+def detection_cycle(graph):
     cycle = [[]]
     visited = []
     for node in graph:
@@ -107,13 +107,13 @@ def cycle(graph):
 
 def acyclique_Berge(graph):
     res = True
-    if cycle(graph):
+    if detection_cycle(graph):
         res = False
     return res
 
 def cordal(graph, nbr_sommets):
     gPrimal = constru_primal(graph, nbr_sommets)
-    all_cycle = cycle(gPrimal)
+    all_cycle = detection_cycle(gPrimal)
     res = True
     for current_cycle in all_cycle:
         nbrSommetCycle = len(current_cycle)
@@ -140,6 +140,11 @@ if __name__ == "__main__":
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+>>>>>>> 00acd7faaa8379948214b9e37cbd2a15a8ec1d2d
 >>>>>>> 1e74d867ec168db62eb2649c379acfa653067469
 >>>>>>> 721e33cfb55f35878f757ddba0621871a5a5313c
 =======
@@ -149,3 +154,7 @@ if __name__ == "__main__":
 >>>>>>> 721e33cfb55f35878f757ddba0621871a5a5313c
 >>>>>>> f7daa8ce38d71d5bdfb85a2f9d4a4184e5aaea67
 >>>>>>> 9746807c32c6c11cb4f681ae6a8ffd44181dfb59
+<<<<<<< HEAD
+=======
+>>>>>>> 8aec5b0f6e9a04ae08b0e39d793078bcffbe298e
+>>>>>>> 00acd7faaa8379948214b9e37cbd2a15a8ec1d2d

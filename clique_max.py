@@ -77,14 +77,14 @@ def graph_primal(graph):
     plt.show()
 
 def constru_incidence(G, nbr_sommets):
-    G_inci = {i+1 : [] for i in range(nbr_sommets)}
+    gInci = {i+1 : [] for i in range(nbr_sommets)}
     for i in range(len(G)):
         if type(G[i]) == list:
             h_a = "E{}".format(i+1)
-            G_inci[h_a] = G[i]
+            gInci[h_a] = G[i]
             for j in G[i]:
-                G_inci[j].append(h_a)
-    return G_inci
+                gInci[j].append(h_a)
+    return gInci
 
 def constru_primal(graph, nbr_sommets):
     gPrimal = {i+1 : [] for i in range(nbr_sommets)}
@@ -132,36 +132,36 @@ def alpha_cyclique(gPrimal, graph):
     else:
         print("Le graphe n'est pas alpha-acyclique")
 
-def dfs(graph, node, cycle, visited = []):
+def dfs(g, node, cycle, visited = []):
     cycle[0].append(node)
     if node not in visited:
         visited.append(node)
-        for n in graph[node]:
-            dfs(graph, n, cycle, visited)
+        for n in g[node]:
+            dfs(g, n, cycle, visited)
             cycle[0].pop()
     else :
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return cycle
 
-def cycle(graph):
+def detect_cycle(g):
     cycle = [[]]
     visited = []
-    for node in graph:
-        if  len(graph[node])>1:
+    for node in g:
+        if  len(g[node])>1:
             cycle[0] = []
             visited = []
-            cycle = dfs(graph, node, cycle, visited)
+            cycle = dfs(g, node, cycle, visited)
     return cycle[1:]
 
-def acyclique_Berge(graph):
+def acyclique_Berge(gInci):
     res = True
-    if cycle(graph):
+    if detect_cycle(gInci):
         res = False
     return res
 
 def cordal(gPrimal):
-    all_cycle = cycle(gPrimal)
+    all_cycle = detect_cycle(gPrimal)
     res = True
     for current_cycle in all_cycle:
         nbrSommetCycle = len(current_cycle)
@@ -180,8 +180,8 @@ def cordal(gPrimal):
 
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
-    G_inci = constru_incidence(graph, nbr_sommets)
-    if not acyclique_Berge(G_inci):
+    gInci = constru_incidence(graph, nbr_sommets)
+    if not acyclique_Berge(gInci):
         print("Le graphe n'est pas acyclique au sens de Berge.")
         alpha_cyclique(constru_primal(graph, nbr_sommets), graph)
     else:
