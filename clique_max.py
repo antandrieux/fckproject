@@ -136,7 +136,7 @@ def dfs(g, node, cycle, visited):
     """ Parcours en profondeur d'un graph et trouve les all_cycle
         renvoie les cycles trouvés.
     """
-    cycle[0].append(node)           #cycle[0] designe le chemin courant dans le graphe.
+    cycle[0].append(node)    #cycle[0] designe le chemin courant dans le graphe.
     if node not in visited:
         visited.append(node)
         for voisin in g[node]:
@@ -144,7 +144,7 @@ def dfs(g, node, cycle, visited):
             cycle[0].pop()
     else :
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
-        and cycle[0][-1] in cycle[0][:-1]:                      #Determine s'il y a une cycle.
+        and cycle[0][-1] in cycle[0][:-1]:       #Determine s'il y a une cycle.
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return cycle
 
@@ -153,7 +153,7 @@ def detect_cycle(g):
     cycle = [[]]
     visited = []
     for node in g:
-        if  len(g[node])>1:     #si len(g[node])<1 il n'est pas possible d avoir un cycle.
+        if  len(g[node])>1: #si len(g[node])<1 il n'est pas possible d avoir un cycle.
             cycle[0] = []
             visited = []
             cycle = dfs(g, node, cycle, visited)
