@@ -132,7 +132,7 @@ def alpha_cyclique(gPrimal, graph):
     else:
         print("Le graphe n'est pas alpha-acyclique")
 
-def dfs(graph, node, cycle, visited):
+def dfs(graph, node, cycle, visited = []):
     cycle[0].append(node)
     if node not in visited:
         visited.append(node)
@@ -140,32 +140,29 @@ def dfs(graph, node, cycle, visited):
             dfs(graph, n, cycle, visited)
             cycle[0].pop()
     else :
-        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
-            and cycle[0][-1] in cycle[0][:-1]:
+        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
-    return visited, cycle
+    return cycle
 
 def cycle(graph):
-    done = []
     cycle = [[]]
     visited = []
     for node in graph:
-        if node not in done and len(graph[node])>1:
+        if  len(graph[node])>1:
             cycle[0] = []
-            visited, cycle = dfs(graph, node, cycle, visited)
-            for i in visited:
-                done.append(i)
+            visited = []
+            cycle = dfs(graph, node, cycle, visited)
     return cycle[1:]
 
 def acyclique_Berge(graph):
-    res = False
+    res = True
     if cycle(graph):
-        res = True
+        res = False
     return res
 
-def cordal(gPrimal):
+def cordal(graph, nbr_sommets):
+    gPrimal = constru_primal(graph, nbr_sommets)
     all_cycle = cycle(gPrimal)
-    print(all_cycle)
     res = True
     for current_cycle in all_cycle:
         nbrSommetCycle = len(current_cycle)
