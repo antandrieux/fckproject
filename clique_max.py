@@ -153,8 +153,8 @@ def detect_cycle(g):
     cycle = [[]]
     visited = []
     for node in g:
-        if  len(g[node])>1: #si len(g[node])<1 il n'est pas possible d avoir un cycle.
-            cycle[0] = []
+        if  len(g[node])>1: #si len(g[node])<1 il n'est pas possible d avoir
+            cycle[0] = []   #un cycle.
             visited = []
             cycle = dfs(g, node, cycle, visited)
     return cycle[1:]
