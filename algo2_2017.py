@@ -93,9 +93,22 @@ def graph_primal(graph):
     plt.show()
 
 def constru_incidence(G, nbr_sommets):
+<<<<<<< HEAD
     '''
     Construit et retourne le graphe d'incidence sous forme d'un dictionnaire.
     '''
+=======
+<<<<<<< HEAD:algo2_2017.py
+    '''
+    Construit et retourne le graphe d'incidence sous forme d'un dictionnaire.
+    '''
+=======
+    """Construit un dictionaire ou les indices sont les sommets
+        et hyper-aretes du graphe d'incidence et les valeurs, les
+        sommets et hyper-aretes aux quels ils sont reliés.
+    """
+>>>>>>> fe2994892c39bea04dc77d235fa5476c1df187f5:clique_max.py
+>>>>>>> d078032ee5cb3f8712932d00f702329634177663
     gInci = {i+1 : [] for i in range(nbr_sommets)}
     for i in range(len(G)):
         if type(G[i]) == list:
@@ -197,8 +210,21 @@ def acyclique_Berge(gInci):
         res = False
     return res
 
+<<<<<<< HEAD
 def detect_cordal(gPrimal):
     all_cycle = detect_cycle(gPrimal)
+=======
+<<<<<<< HEAD:algo2_2017.py
+def detect_cordal(gPrimal):
+    all_cycle = detect_cycle(gPrimal)
+=======
+def cordal(gPrimal):
+    """Renvoie True si le graphe gPprimal est cordale
+        False si non.
+    """
+    all_cycle = detect_cycle(gPrimal)         #Listes des cycles de gPrimal.
+>>>>>>> fe2994892c39bea04dc77d235fa5476c1df187f5:clique_max.py
+>>>>>>> d078032ee5cb3f8712932d00f702329634177663
     res = True
     for current_cycle in all_cycle:            #Parcours des cycles du graph.
         nbrSommetCycle = len(current_cycle)
@@ -225,6 +251,10 @@ def hypercycle(graph):
         print("Le graphe n'est pas acyclique au sens de Berge.")
         alpha_acyclique(constru_primal(graph, nbr_sommets), graph)
     else:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:algo2_2017.py
+>>>>>>> d078032ee5cb3f8712932d00f702329634177663
         print("Le graphe est acyclique au sens de Berge.")
 
 if __name__ == "__main__":
@@ -232,3 +262,11 @@ if __name__ == "__main__":
     #graph, nbr_sommets = [[1,2,3],[1,5],[3,5,6],[4], 7], 7
     hypercycle(graph)
     show_incident(graph)
+<<<<<<< HEAD
+=======
+=======
+        print("Le graphe est acyclique au sens de Berge et par conséquent alpha-acyclique")
+    graph_incidence(graph)
+    graph_primal(graph)
+>>>>>>> fe2994892c39bea04dc77d235fa5476c1df187f5:clique_max.py
+>>>>>>> d078032ee5cb3f8712932d00f702329634177663
