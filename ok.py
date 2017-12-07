@@ -103,30 +103,27 @@ def dfs(graph, node, cycle, visited):
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
             and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
-    return visited, cycle
+    return cycle
 
 def cycle(graph):
-    done = []
     cycle = [[]]
     visited = []
     for node in graph:
-        if node not in done and len(graph[node])>1:
+        if  len(graph[node])>1:
             cycle[0] = []
-            visited, cycle = dfs(graph, node, cycle, visited)
-            for i in visited:
-                done.append(i)
+            visited = []
+            cycle = dfs(graph, node, cycle, visited)
     return cycle[1:]
 
 def acyclique_Berge(graph):
-    res = False
+    res = True
     if cycle(graph):
-        res = True
+        res = False
     return res
 
 def cordal(graph, nbr_sommets):
     gPrimal = constru_primal(graph, nbr_sommets)
     all_cycle = cycle(gPrimal)
-    print(all_cycle)
     res = True
     for current_cycle in all_cycle:
         nbrSommetCycle = len(current_cycle)
@@ -146,7 +143,7 @@ def cordal(graph, nbr_sommets):
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
     G_inci = constru_incidence(graph, nbr_sommets)
-    print(acyclique_Berge(G_inci))
+    print('acyclique au sens berge :' + str(acyclique_Berge(G_inci)))
     graph_incidence(graph)
-    print(cordal(graph, nbr_sommets))
+    print('cordal :' + str(cordal(graph, nbr_sommets)))
     graph_primal(graph)
