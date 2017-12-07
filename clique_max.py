@@ -194,7 +194,7 @@ def cordal(gPrimal):
                 for j in range(nbrSommetCycle):
                     if j != voisin_G and j != voisin_D and j != i :
                         if current_cycle[j] in gPrimal[current_cycle[i]]:
-                            #determine si il y a une corde dans le cycle.  
+                            #determine si il y a une corde dans le cycle.
                             res = True
     return res
 
@@ -205,6 +205,7 @@ if __name__ == "__main__":
         print("Le graphe n'est pas acyclique au sens de Berge.")
         alpha_cyclique(constru_primal(graph, nbr_sommets), graph)
     else:
-        print("Le graphe est acyclique au sens de Berge.")
+        print("Le graphe est acyclique au sens de Berge et par conséquent alpha-acyclique")
+
     graph_incidence(graph)
     graph_primal(graph)
