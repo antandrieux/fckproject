@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from math import ceil
 from copy import deepcopy
 
-
 def hypergraphe():
     nbr_sommets = randint(4, 15)
     hyper_aretes = randint(2, round((3/4)*nbr_sommets))
@@ -62,10 +61,11 @@ def graph_primal(graph):
         if type(graph[i]) == list:
             graphP.add_node(graph[i][0])
             if len(graph[i]) > 1:
-                for sommet in range(1,len(graph[i])):
+                for sommet in range(len(graph[i])):
                     graphP.add_node(graph[i][sommet])
-                    graphP.add_edge(graph[i][sommet], graph[i][sommet-1])
-                graphP.add_edge(graph[i][-1], graph[i][0])
+                    for autre_sommet in range(len(graph[i])):
+                        if sommet != autre_sommet:
+                            graphP.add_edge(graph[i][sommet], graph[i][autre_sommet])
         else:
             graphP.add_node(graph[i])
     plt.subplot(121)
@@ -92,8 +92,7 @@ def constru_primal(graph, nbr_sommets):
                         gPrimal[sommet].append(i)
     return gPrimal
 
-
-def dfs(graph, node, cycle, visited = []):
+def dfs(graph, node, cycle, visited):
     cycle[0].append(node)
     if node not in visited:
         visited.append(node)
@@ -107,24 +106,28 @@ def dfs(graph, node, cycle, visited = []):
     return visited, cycle
 
 def cycle(graph):
-    #print(graph)
     done = []
     cycle = [[]]
-    #print(done, cycle)
+    visited = []
     for node in graph:
-        if not(node in done) and len(graph[node])>1:
+        if node not in done and len(graph[node])>1:
             cycle[0] = []
-            are_done, cycle = dfs(graph, node, cycle)
-            for i in are_done:
+            visited, cycle = dfs(graph, node, cycle, visited)
+            for i in visited:
                 done.append(i)
     return cycle[1:]
 
+def acyclique_Berge(graph):
+    res = False
+    if cycle(graph):
+        res = True
+    return res
 
 def cordal(graph, nbr_sommets):
     gPrimal = constru_primal(graph, nbr_sommets)
-    res = True
     all_cycle = cycle(gPrimal)
-    #print(all_cycle)
+    print(all_cycle)
+    res = True
     for current_cycle in all_cycle:
         nbrSommetCycle = len(current_cycle)
         if nbrSommetCycle >= 4:
@@ -140,14 +143,10 @@ def cordal(graph, nbr_sommets):
                             res = True
     return res
 
-
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
     G_inci = constru_incidence(graph, nbr_sommets)
-    """print(acyclique_Berge(G_inci))"""
-
+    print(acyclique_Berge(G_inci))
     graph_incidence(graph)
     print(cordal(graph, nbr_sommets))
-
     graph_primal(graph)
-    print(cycle(G_inci))
