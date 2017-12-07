@@ -69,7 +69,7 @@ def graph_primal(graph):
         else:
             graphP.add_node(graph[i])
     plt.subplot(121)
-    nx.draw_circular(graphP ,with_labels=True, font_weight='bold')
+    nx.draw(graphP ,with_labels=True, font_weight='bold')
     plt.show()
 
 def constru_incidence(G, nbr_sommets):
@@ -81,6 +81,16 @@ def constru_incidence(G, nbr_sommets):
             for j in G[i]:
                 G_inci[j].append(h_a)
     return G_inci
+
+def constru_primal(graph, nbr_sommets):
+    gPrimal = {i+1 : [] for i in range(nbr_sommets)}
+    for hyper_arete in graph:
+        if type(hyper_arete) == list:
+            for sommet in hyper_arete :
+                for i in hyper_arete:
+                    if i not in gPrimal[sommet] and i != sommet:
+                        gPrimal[sommet].append(i)
+    return gPrimal
 
 def dfs(graph, node, cycle, visited):
     cycle[0].append(node)
@@ -114,6 +124,7 @@ def acyclique_Berge(graph):
 def cordal(graph, nbr_sommets):
     gPrimal = constru_primal(graph, nbr_sommets)
     all_cycle = detection_cycle(gPrimal)
+    print(all_cycle)
     res = True
     for current_cycle in all_cycle:
         nbrSommetCycle = len(current_cycle)
@@ -133,28 +144,8 @@ def cordal(graph, nbr_sommets):
 if __name__ == "__main__":
     graph, nbr_sommets = hypergraphe()
     G_inci = constru_incidence(graph, nbr_sommets)
-    print('acyclique au sens berge :' + str(acyclique_Berge(G_inci)))
-    graph_incidence(graph)
+    #print(G_inci)
+    #print('acyclique au sens berge :' + str(acyclique_Berge(G_inci)))
+    #graph_incidence(graph)
     print('cordal :' + str(cordal(graph, nbr_sommets)))
     graph_primal(graph)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-<<<<<<< HEAD
->>>>>>> 00acd7faaa8379948214b9e37cbd2a15a8ec1d2d
->>>>>>> 1e74d867ec168db62eb2649c379acfa653067469
->>>>>>> 721e33cfb55f35878f757ddba0621871a5a5313c
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 1e74d867ec168db62eb2649c379acfa653067469
->>>>>>> 721e33cfb55f35878f757ddba0621871a5a5313c
->>>>>>> f7daa8ce38d71d5bdfb85a2f9d4a4184e5aaea67
->>>>>>> 9746807c32c6c11cb4f681ae6a8ffd44181dfb59
-<<<<<<< HEAD
-=======
->>>>>>> 8aec5b0f6e9a04ae08b0e39d793078bcffbe298e
->>>>>>> 00acd7faaa8379948214b9e37cbd2a15a8ec1d2d
