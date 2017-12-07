@@ -49,7 +49,7 @@ def gene_hypergraph():
         for i in copie: G.append(i)
     return G, nbr_sommets
 
-def show_incident(graph):
+def show_incidence(graph):
     '''
     Affiche le graphe d'incidence à l'aide des librairies NetworkX et MatPlotLib
     '''
@@ -75,23 +75,6 @@ def show_incident(graph):
     nx.draw(G, pos, with_labels=True, font_weight='bold')
     plt.show()
 
-def graph_primal(graph):
-    graphP = nx.Graph()
-    for i in range(len(graph)):
-        if type(graph[i]) == list:
-            graphP.add_node(graph[i][0])
-            if len(graph[i]) > 1:
-                for sommet in range(len(graph[i])):
-                    graphP.add_node(graph[i][sommet])
-                    for autre_sommet in range(len(graph[i])):
-                        if sommet != autre_sommet:
-                            graphP.add_edge(graph[i][sommet], graph[i][autre_sommet])
-        else:
-            graphP.add_node(graph[i])
-    plt.subplot(121)
-    nx.draw(graphP ,with_labels=True, font_weight='bold')
-    plt.show()
-
 def constru_incidence(G, nbr_sommets):
     '''
     Construit et retourne le graphe d'incidence sous forme d'un dictionnaire.
@@ -110,10 +93,11 @@ def constru_incidence(G, nbr_sommets):
     return gInci
 
 def constru_primal(graph, nbr_sommets):
-    """Construit un dictionaire ou les indices sont les sommets
-        du graphe primal et les valeurs, les sommets aux quels
-        ils sont reliés.
-    """
+    '''
+    Construit un dictionaire ou les indices sont les sommets
+    du graphe primal et les valeurs, les sommets aux quels
+    ils sont reliés.
+    '''
     gPrimal = {i+1 : [] for i in range(nbr_sommets)}
     for hyper_arete in graph:
         if type(hyper_arete) == list:
@@ -162,9 +146,10 @@ def alpha_acyclique(gPrimal, graph):
         print("Le graphe n'est pas alpha-acyclique")
 
 def dfs(g, node, cycle, visited):
-    """ Parcours en profondeur d'un graph et trouve les cycles et
-        renvoie les cycles trouvés.
-    """
+    '''
+    Parcours en profondeur d'un graphe et trouve les cycles et
+    renvoie les cycles trouvés.
+    '''
     cycle[0].append(node)    #cycle[0] designe le chemin courant dans le graphe.
     if node not in visited:
         visited.append(node)
@@ -178,7 +163,9 @@ def dfs(g, node, cycle, visited):
     return cycle
 
 def detect_cycle(g):
-    """Renvoie tout les cycles du graphe g."""
+    '''
+    Renvoie tout les cycles du graphe g.
+    '''
     cycle = [[]]
     visited = []
     for node in g:
@@ -189,16 +176,21 @@ def detect_cycle(g):
     return cycle[1:]
 
 def acyclique_Berge(gInci):
-    """Renvoie True si le graphe gInci est acyclique au sens berge
-        False si non.
-    """
+    '''
+    Renvoie True si le graphe gInci est acyclique au sens berge
+    False si non.
+    '''
     res = True
     if detect_cycle(gInci):
         res = False
     return res
 
 def detect_cordal(gPrimal):
-    all_cycle = detect_cycle(gPrimal)
+    '''
+    Renvoie True si le graphe gPprimal est cordale
+    False si non.
+    '''
+    all_cycle = detect_cycle(gPrimal)         #Listes des cycles de gPrimal.
     res = True
     for current_cycle in all_cycle:            #Parcours des cycles du graph.
         nbrSommetCycle = len(current_cycle)
@@ -231,4 +223,5 @@ if __name__ == "__main__":
     graph, nbr_sommets = gene_hypergraph()
     #graph, nbr_sommets = [[1,2,3],[1,5],[3,5,6],[4], 7], 7
     hypercycle(graph)
-    show_incident(graph)
+    show_incidence(graph)
+    graph_incidence(graph)
