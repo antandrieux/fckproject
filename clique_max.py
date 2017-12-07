@@ -132,7 +132,7 @@ def alpha_cyclique(gPrimal, graph):
     else:
         print("Le graphe n'est pas alpha-acyclique")
 
-def dfs(g, node, cycle, visited = []):
+def dfs(g, node, cycle, visited):
     cycle[0].append(node)
     if node not in visited:
         visited.append(node)
@@ -140,7 +140,8 @@ def dfs(g, node, cycle, visited = []):
             dfs(g, n, cycle, visited)
             cycle[0].pop()
     else :
-        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) and cycle[0][-1] in cycle[0][:-1]:
+        if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
+        and cycle[0][-1] in cycle[0][:-1]:
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return cycle
 
