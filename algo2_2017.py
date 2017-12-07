@@ -99,15 +99,21 @@ def constru_incidence(G, nbr_sommets):
     gInci = {i+1 : [] for i in range(nbr_sommets)}
     for i in range(len(G)):
         if type(G[i]) == list:
-            # Chaque hyper-arete en clé vers une liste contenant les sommets qui y sont reliées
+            # Chaque hyper-arete en clé et
+            # en valeur, une liste contenant les sommets qui y sont reliées
             h_a = "E{}".format(i+1)
             gInci[h_a] = G[i]
-            # Chaque sommet en clé vers une liste contenant les hyper-aretes qui y sont reliées
+            # Chaque sommet en clé et
+            # en valeur, une liste contenant les hyper-aretes qui y sont reliées
             for j in G[i]:
                 gInci[j].append(h_a)
     return gInci
 
 def constru_primal(graph, nbr_sommets):
+    """Construit un dictionaire ou les indices sont les sommets
+        du graphe primal et les valeurs, les sommets aux quels
+        ils sont reliés.
+    """
     gPrimal = {i+1 : [] for i in range(nbr_sommets)}
     for hyper_arete in graph:
         if type(hyper_arete) == list:
@@ -156,29 +162,36 @@ def alpha_acyclique(gPrimal, graph):
         print("Le graphe n'est pas alpha-acyclique")
 
 def dfs(g, node, cycle, visited):
-    cycle[0].append(node)
+    """ Parcours en profondeur d'un graph et trouve les cycles et
+        renvoie les cycles trouvés.
+    """
+    cycle[0].append(node)    #cycle[0] designe le chemin courant dans le graphe.
     if node not in visited:
         visited.append(node)
-        for n in g[node]:
-            dfs(g, n, cycle, visited)
+        for voisin in g[node]:
+            dfs(g, voisin, cycle, visited)
             cycle[0].pop()
     else :
         if len(cycle[0])>2 and not(cycle[0][-1] == cycle[0][-3]) \
-        and cycle[0][-1] in cycle[0][:-1]:
+        and cycle[0][-1] in cycle[0][:-1]:       #Determine s'il y a une cycle.
             cycle.append(cycle[0][cycle[0].index(cycle[0][-1]):-1])
     return cycle
 
 def detect_cycle(g):
+    """Renvoie tout les cycles du graphe g."""
     cycle = [[]]
     visited = []
     for node in g:
-        if  len(g[node])>1:
-            cycle[0] = []
+        if  len(g[node])>1: #si len(g[node])<1 il n'est pas possible d avoir
+            cycle[0] = []   #un cycle.
             visited = []
             cycle = dfs(g, node, cycle, visited)
     return cycle[1:]
 
 def acyclique_Berge(gInci):
+    """Renvoie True si le graphe gInci est acyclique au sens berge
+        False si non.
+    """
     res = True
     if detect_cycle(gInci):
         res = False
@@ -187,18 +200,19 @@ def acyclique_Berge(gInci):
 def detect_cordal(gPrimal):
     all_cycle = detect_cycle(gPrimal)
     res = True
-    for current_cycle in all_cycle:
+    for current_cycle in all_cycle:            #Parcours des cycles du graph.
         nbrSommetCycle = len(current_cycle)
         if nbrSommetCycle >= 4:
             res = False
             for i in range(nbrSommetCycle):
-                voisin_G = i-1
-                voisin_D = i-1
+                voisin_G = i-1                  #voisins gauche et droite du
+                voisin_D = i-1                  #sommet a l indice i.
                 if voisin_D >= nbrSommetCycle:
                     voisin_D = 0
                 for j in range(nbrSommetCycle):
                     if j != voisin_G and j != voisin_D and j != i :
                         if current_cycle[j] in gPrimal[current_cycle[i]]:
+                            #determine si il y a une corde dans le cycle.
                             res = True
     return res
 
