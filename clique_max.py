@@ -127,7 +127,7 @@ def alpha_cyclique(gPrimal, graph):
         if CLIQUES_MAX[i] not in graph:
             cliques_ha = False
         i += 1
-    if cordal(graph_primal) and cliques_ha:
+    if cordal(gPrimal) and cliques_ha:
         print("Le graphe est alpha-acyclique")
     else:
         print("Le graphe n'est pas alpha-acyclique")
