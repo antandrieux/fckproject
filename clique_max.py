@@ -206,6 +206,5 @@ if __name__ == "__main__":
         alpha_cyclique(constru_primal(graph, nbr_sommets), graph)
     else:
         print("Le graphe est acyclique au sens de Berge et par conséquent alpha-acyclique")
-
     graph_incidence(graph)
     graph_primal(graph)
