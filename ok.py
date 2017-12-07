@@ -136,3 +136,4 @@ if __name__ == "__main__":
     graph_incidence(graph)
     print('cordal :' + str(cordal(graph, nbr_sommets)))
     graph_primal(graph)
+>>>>>>> 1e74d867ec168db62eb2649c379acfa653067469
