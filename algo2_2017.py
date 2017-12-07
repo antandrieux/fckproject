@@ -1,10 +1,26 @@
+'''
+AUTHOR = Antoine Andrieux
+Matricule = 000443686
+B-INFO
+
+AUTHOR = Loukas Wets
+Matricule =
+'''
+'''
+INFO-F203 – Algorithmique 2
+Projet : "Cycles et hypergraphes"
+'''
+
 from random import randint
 from networkx import nx
 import matplotlib.pyplot as plt
 from math import ceil
 from copy import deepcopy
 
-def hypergraphe():
+def gene_hypergraph():
+    '''
+    Génération aléatoire d'un hyper-graphe composé de sommets et d'hyper-aretes
+    '''
     nbr_sommets = randint(4, 15)
     hyper_aretes = randint(2, round((1/2)*nbr_sommets))
 
@@ -12,7 +28,7 @@ def hypergraphe():
     for i in range(1, nbr_sommets + 1): sommets.append(i)
     copie = deepcopy(sommets)
 
-    G = [[] for i in range(hyper_aretes + 1)]
+    G = [[] for i in range(hyper_aretes)]
     nbr_sommets_hyper = ceil(nbr_sommets / hyper_aretes)
 
     d = 0
@@ -28,14 +44,14 @@ def hypergraphe():
                 h_a.append(sommets[a])
                 d += 1
                 if sommets[a] in copie: del copie[copie.index(sommets[a])]
-
+        h_a.sort()
     if copie:
         for i in copie: G.append(i)
     return G, nbr_sommets
 
-def graph_incidence(graph):
+def show_incident(graph):
     '''
-
+    Affiche le graphe d'incidence à l'aide des librairies NetworkX et MatPlotLib
     '''
     pos = {}
     G = nx.Graph()
@@ -77,11 +93,16 @@ def graph_primal(graph):
     plt.show()
 
 def constru_incidence(G, nbr_sommets):
+    '''
+    Construit et retourne le graphe d'incidence sous forme d'un dictionnaire.
+    '''
     gInci = {i+1 : [] for i in range(nbr_sommets)}
     for i in range(len(G)):
         if type(G[i]) == list:
+            # Chaque hyper-arete en clé vers une liste contenant les sommets qui y sont reliées
             h_a = "E{}".format(i+1)
             gInci[h_a] = G[i]
+            # Chaque sommet en clé vers une liste contenant les hyper-aretes qui y sont reliées
             for j in G[i]:
                 gInci[j].append(h_a)
     return gInci
@@ -96,7 +117,7 @@ def constru_primal(graph, nbr_sommets):
                         gPrimal[sommet].append(i)
     return gPrimal
 
-def bron(r,p,x, gPrimal):
+def detect_cliques_max(r,p,x, gPrimal):
     '''
     Application de l'algorithme de Bron-Kerbosch -- Backtracking
     '''
@@ -109,25 +130,27 @@ def bron(r,p,x, gPrimal):
         # graph_primal[sommet] == voisins de sommet
         new_p = [val for val in p if val in gPrimal[sommet]] # p intersecte graph_primal[sommet]
         new_x = [val for val in x if val in gPrimal[sommet]] # x intersecte graph_primal[sommet]
-        bron(new_r,new_p,new_x, gPrimal)
+        detect_cliques_max(new_r,new_p,new_x, gPrimal)
         p.remove(sommet)
         x.append(sommet)
 
-def alpha_cyclique(gPrimal, graph):
+def alpha_acyclique(gPrimal, graph):
     '''
     Vérifie si le graphe primal est acyclique.
     '''
     global CLIQUES_MAX
     CLIQUES_MAX = []    # Liste de toutes les cliques maximales
-    bron([], [val + 1 for val in range(len(gPrimal))], [], gPrimal)
+    detect_cliques_max([], [val + 1 for val in range(len(gPrimal))], [], gPrimal)
     i = 0
     cliques_ha = True
     # Vérifie si les cliques maximales correspondent à des hyper-aretes
     while i < len(CLIQUES_MAX) and cliques_ha:
-        if CLIQUES_MAX[i] not in graph:
+        print(CLIQUES_MAX[i])
+        # Verifie pour les hyper-aretes et Singletons
+        if CLIQUES_MAX[i] not in graph and CLIQUES_MAX[i][0] not in graph:
             cliques_ha = False
         i += 1
-    if cordal(gPrimal) and cliques_ha:
+    if detect_cordal(gPrimal) and cliques_ha:
         print("Le graphe est alpha-acyclique")
     else:
         print("Le graphe n'est pas alpha-acyclique")
@@ -161,7 +184,7 @@ def acyclique_Berge(gInci):
         res = False
     return res
 
-def cordal(gPrimal):
+def detect_cordal(gPrimal):
     all_cycle = detect_cycle(gPrimal)
     res = True
     for current_cycle in all_cycle:
@@ -179,13 +202,19 @@ def cordal(gPrimal):
                             res = True
     return res
 
-if __name__ == "__main__":
-    graph, nbr_sommets = hypergraphe()
+def hypercycle(graph):
+    '''
+    Affiche si le graphe est acyclique au sens de Berge.
+    '''
     gInci = constru_incidence(graph, nbr_sommets)
     if not acyclique_Berge(gInci):
         print("Le graphe n'est pas acyclique au sens de Berge.")
-        alpha_cyclique(constru_primal(graph, nbr_sommets), graph)
+        alpha_acyclique(constru_primal(graph, nbr_sommets), graph)
     else:
         print("Le graphe est acyclique au sens de Berge.")
-    graph_incidence(graph)
-    graph_primal(graph)
+
+if __name__ == "__main__":
+    graph, nbr_sommets = gene_hypergraph()
+    #graph, nbr_sommets = [[1,2,3],[1,5],[3,5,6],[4], 7], 7
+    hypercycle(graph)
+    show_incident(graph)
