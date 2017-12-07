@@ -34,6 +34,9 @@ def hypergraphe():
     return G, nbr_sommets
 
 def graph_incidence(graph):
+    '''
+
+    '''
     pos = {}
     G = nx.Graph()
     ite = 0
@@ -41,6 +44,7 @@ def graph_incidence(graph):
         if type(graph[i]) == list:  # Hyperarêtes
             x = "E{}".format(i+1)
             G.add_node(x)
+            # Création de la position du noeud dans l'affichage
             pos[x] = (-10, -20*(i*2))
             for j in graph[i]:
                 if j not in nx.nodes(G):
@@ -92,7 +96,7 @@ def constru_primal(graph, nbr_sommets):
                         gPrimal[sommet].append(i)
     return gPrimal
 
-def bron(r,p,x):
+def bron(r,p,x, gPrimal):
     '''
     Application de l'algorithme de Bron-Kerbosch -- Backtracking
     '''
@@ -103,19 +107,19 @@ def bron(r,p,x):
         new_r = r[::]
         new_r.append(sommet)
         # graph_primal[sommet] == voisins de sommet
-        new_p = [val for val in p if val in graph_primal[sommet]] # p intersecte graph_primal[sommet]
-        new_x = [val for val in x if val in graph_primal[sommet]] # x intersecte graph_primal[sommet]
-        bron(new_r,new_p,new_x)
+        new_p = [val for val in p if val in gPrimal[sommet]] # p intersecte graph_primal[sommet]
+        new_x = [val for val in x if val in gPrimal[sommet]] # x intersecte graph_primal[sommet]
+        bron(new_r,new_p,new_x, gPrimal)
         p.remove(sommet)
         x.append(sommet)
 
-def alpha_cyclique(graph_primal, graph):
+def alpha_cyclique(gPrimal, graph):
     '''
     Vérifie si le graphe primal est acyclique.
     '''
     global CLIQUES_MAX
     CLIQUES_MAX = []    # Liste de toutes les cliques maximales
-    bron([], [val + 1 for val in range(len(graph_primal))], [])
+    bron([], [val + 1 for val in range(len(gPrimal))], [], gPrimal)
     i = 0
     cliques_ha = True
     # Vérifie si les cliques maximales correspondent à des hyper-aretes
@@ -184,5 +188,7 @@ if __name__ == "__main__":
     if not acyclique_Berge(G_inci):
         print("Le graphe n'est pas acyclique au sens de Berge.")
         alpha_cyclique(constru_primal(graph, nbr_sommets), graph)
+    else:
+        print("Le graphe est acyclique au sens de Berge.")
     graph_incidence(graph)
     graph_primal(graph)
