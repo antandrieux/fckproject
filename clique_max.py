@@ -180,9 +180,9 @@ def cordal(gPrimal):
     """Renvoie True si le graphe gPprimal est cordale
         False si non.
     """
-    all_cycle = detect_cycle(gPrimal)         #Listes des cycles de gPrimal
+    all_cycle = detect_cycle(gPrimal)         #Listes des cycles de gPrimal.
     res = True
-    for current_cycle in all_cycle:            #Parcours des cycles du graph
+    for current_cycle in all_cycle:            #Parcours des cycles du graph.
         nbrSommetCycle = len(current_cycle)
         if nbrSommetCycle >= 4:
             res = False
@@ -193,8 +193,9 @@ def cordal(gPrimal):
                     voisin_D = 0
                 for j in range(nbrSommetCycle):
                     if j != voisin_G and j != voisin_D and j != i :
-                        if current_cycle[j] in gPrimal[current_cycle[i]]:   #determine si il y a une
-                            res = True                                      #corde dans le cycle.
+                        if current_cycle[j] in gPrimal[current_cycle[i]]:
+                            #determine si il y a une corde dans le cycle.  
+                            res = True
     return res
 
 if __name__ == "__main__":
