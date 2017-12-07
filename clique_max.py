@@ -77,6 +77,10 @@ def graph_primal(graph):
     plt.show()
 
 def constru_incidence(G, nbr_sommets):
+    """Construit un dictionaire ou les indices sont les sommets
+        et hyper-aretes du graphe d'incidence et les valeurs, les
+        sommets et hyper-aretes aux quels ils sont reliés.
+    """
     gInci = {i+1 : [] for i in range(nbr_sommets)}
     for i in range(len(G)):
         if type(G[i]) == list:
@@ -87,6 +91,10 @@ def constru_incidence(G, nbr_sommets):
     return gInci
 
 def constru_primal(graph, nbr_sommets):
+    """Construit un dictionaire ou les indices sont les sommets
+        du graphe primal et les valeurs, les sommets aux quels
+        ils sont reliés.
+    """
     gPrimal = {i+1 : [] for i in range(nbr_sommets)}
     for hyper_arete in graph:
         if type(hyper_arete) == list:
@@ -133,7 +141,7 @@ def alpha_cyclique(gPrimal, graph):
         print("Le graphe n'est pas alpha-acyclique")
 
 def dfs(g, node, cycle, visited):
-    """ Parcours en profondeur d'un graph et trouve les all_cycle
+    """ Parcours en profondeur d'un graph et trouve les cycles et
         renvoie les cycles trouvés.
     """
     cycle[0].append(node)    #cycle[0] designe le chemin courant dans le graphe.
